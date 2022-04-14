@@ -1,8 +1,8 @@
-import React, {FunctionComponent, useEffect, useState} from 'react'
-import {View} from 'react-native'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { View } from 'react-native'
 // import './style.scss';
 
-import {EngineView, useEngine} from '@babylonjs/react-native'
+import { EngineView, useEngine } from '@babylonjs/react-native'
 import {
   ArcRotateCamera,
   Camera,
@@ -16,7 +16,7 @@ import createInputHandling from '../functions/createInputHandling'
 
 import '@babylonjs/loaders'
 
-interface MyComponentProps {}
+interface MyComponentProps { }
 
 const MyComponent: FunctionComponent<MyComponentProps> = (
   props: MyComponentProps,
@@ -43,9 +43,23 @@ const MyComponent: FunctionComponent<MyComponentProps> = (
 
       SceneLoader.ImportMeshAsync(
         null,
-        'https://models.babylonjs.com/',
-        'seagulf.glb',
+        '../../assets/lisa/LISAGLTF/',
+        'Lisa-rig-teste-chris-glb.gltf',
         scene,
+        function (meshes) {
+          scene.createDefaultCameraOrLight(true, true, true)
+          scene.createDefaultEnvironment()
+          scene.activeCamera.alpha += Math.PI
+
+          // SceneLoader.ImportAnimationsAsync(
+          //   '',
+          //   'https://www.lerengebaren.nl/3d/try1/AngryFan_DEFAULT_C2J.glb',
+          //   scene,
+          //   true,
+          //   SceneLoaderAnimationGroupLoadingMode.Clean,
+          //   null,
+          // ).then(newScene => { })
+        },
       ).then(result => {
         const root = result.meshes[0]
         //so our raycasts dont hit ourself
@@ -66,6 +80,31 @@ const MyComponent: FunctionComponent<MyComponentProps> = (
         )
       })
 
+      // SceneLoader.ImportMeshAsync(
+      //   null,
+      //   'https://models.babylonjs.com/',
+      //   'seagulf.glb',
+      //   scene,
+      // ).then(result => {
+      //   const root = result.meshes[0]
+      //   //so our raycasts dont hit ourself
+      //   root.isPickable = false
+      //   root.setAbsolutePosition(new Vector3(0, 0, 100))
+      //   root.scaling.x -= 0.8
+      //   root.scaling.y -= 0.8
+      //   root.scaling.z -= 0.8
+
+      //   const body = result.meshes[1]
+      //   body.rotate(Vector3.Up(), 3)
+
+      //   const deviceSourceManager = new DeviceSourceManager(engine)
+      //   createInputHandling(deviceSourceManager, body, true).then(
+      //     createValue => {
+      //       console.log('createValue: ', createValue)
+      //     },
+      //   )
+      // })
+
       scene.beforeRender = function () {
         // sphere.rotate(Vector3.Up(), 0.01 * scene.getAnimationRatio())
         // sphere.movePOV(0.0008, -0.0005, 0.0004)
@@ -76,8 +115,8 @@ const MyComponent: FunctionComponent<MyComponentProps> = (
   }, [engine])
 
   return (
-    <View style={{width: '100%', height: '100%', backgroundColor: 'green'}}>
-      <EngineView style={{flex: 1}} camera={camera} />
+    <View style={{ width: '100%', height: '100%', backgroundColor: 'green' }}>
+      <EngineView style={{ flex: 1 }} camera={camera} />
     </View>
   )
 }

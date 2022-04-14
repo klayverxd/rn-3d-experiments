@@ -6,4 +6,4 @@ module.exports = {
     curly: ['error', 'multi'],
     // indent: ['error', 'tab'],
   },
-};
+}
